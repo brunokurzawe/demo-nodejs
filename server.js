@@ -26,12 +26,13 @@ var produtosController = require('./controllers/produto');
 var app = express();
 
 
-mongoose.connect(process.env.MONGODB);
+var options = { server: { socketOptions: { keepAlive: 1 } } };
+mongoose.connect('mongodb://devops:devops123@ds018508.mlab.com:18508/devops',options);
 mongoose.connection.on('error', function () {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
 });
-app.set('port', process.env.PORT || 3000);
+app.set('port', 8080|| 8080);
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
