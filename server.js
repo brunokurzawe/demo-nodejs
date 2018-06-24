@@ -16,23 +16,20 @@ dotenv.load();
 
 // Models
 var User = require('./models/User');
-var Produto = require('./models/Produto');
 
 // Controllers
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
-var produtosController = require('./controllers/produto');
 
 var app = express();
 
 
-var options = { server: { socketOptions: { keepAlive: 1 } } };
-mongoose.connect('mongodb://devops:devops123@ds018508.mlab.com:18508/devops',options);
+mongoose.connect('mongodb://devops:devops123@ds018508.mlab.com:18508/devops');
 mongoose.connection.on('error', function () {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
 });
-app.set('port', 8080|| 8080);
+app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -70,19 +67,6 @@ app.post('/login', userController.loginPost);
 app.post('/forgot', userController.forgotPost);
 app.post('/reset/:token', userController.resetPost);
 app.get('/unlink/:provider', userController.ensureAuthenticated, userController.unlink);
-app.post('/auth/facebook', userController.authFacebook);
-app.get('/auth/facebook/callback', userController.authFacebookCallback);
-app.post('/auth/google', userController.authGoogle);
-app.get('/auth/google/callback', userController.authGoogleCallback);
-app.post('/auth/twitter', userController.authTwitter);
-app.get('/auth/twitter/callback', userController.authTwitterCallback);
-
-app.get('/api/produtos', produtosController.produtoGet);
-app.post('/api/produtos', produtosController.produtoPost);
-app.get('/api/produtos/:id', produtosController.produtoGetId);
-app.put('/api/produtos/:id', produtosController.produtoPut);
-app.delete('/api/produtos/:id', produtosController.produtoDelete);
-
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'app', 'index.html'));

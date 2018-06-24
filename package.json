@@ -1,5 +1,5 @@
 {
-  "name": "bold-band",
+  "name": "autumn-base",
   "version": "1.0.0",
   "description": "My app description",
   "scripts": {
@@ -7,6 +7,9 @@
     "build:production": "gulp build --production",
     "postinstall": "npm run build:production",
     "start": "node server.js",
+    "test": "npm run test:server && npm run test:client",
+    "test:client": "karma start app/karma.conf.js --single-run",
+    "test:server": "jasmine",
     "watch": "gulp"
   },
   "dependencies": {
@@ -37,7 +40,14 @@
     "vinyl-buffer": "^1.0.0",
     "yargs": "^4.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-coverage": "^0.5.5",
+    "karma-jasmine": "^0.3.7",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
+  },
   "engines": {
     "node": "6.1.0"
   }
